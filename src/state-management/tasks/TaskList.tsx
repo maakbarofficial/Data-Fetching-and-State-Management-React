@@ -1,17 +1,19 @@
-import { useReducer, useState } from "react";
-import taskReducer from "./reducers/tasksReducers";
+import { useContext } from "react";
+import TasksContext from "./taskContexts";
+import useAuth from "../auth/useAuth";
 
-interface Task {
-  id: number;
-  title: string;
-}
+const useTasks = () => useContext(TasksContext);
 
 const TaskList = () => {
   // const [tasks, setTasks] = useState<Task[]>([]);
-  const [tasks, dispatch] = useReducer(taskReducer, []);
+  // const [tasks, dispatch] = useReducer(taskReducer, []);
+
+  const { tasks, dispatch } = useTasks();
+  const { user } = useAuth();
 
   return (
     <>
+      <p>User: {user}</p>
       <button onClick={() => dispatch({ type: "ADD", task: { id: Date.now(), title: "Task" + Date.now() } })} className="btn btn-primary my-3">
         Add Task
       </button>
